@@ -72,5 +72,11 @@ namespace People
             }
             return new List<Person>();
         }
+        /*
+        public List<Person> GetSomePeople()
+        {
+            // Return a list of people with names beginnning with a
+            
+        }*/
     }
 }

@@ -18,6 +18,7 @@ namespace People
         {
             InitializeComponent();
             // Initialise the PersonRepo object
+            // This is accessed in other files such as MainPage.xaml.cs
             PersonRepo = new PersonRepository(dbPath);
 
             MainPage = new People.MainPage
