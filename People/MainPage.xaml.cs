@@ -33,8 +33,9 @@ namespace People
         {
             // clear the status message label on th UI
             statusMessage.Text = "";
-            List<Person> people = App.PersonRepo.GetAllPeople();
-            peopleList.ItemsSource = people;
+            // List<Person> people = App.PersonRepo.GetAllPeople();
+            List<Person> somePeople = App.PersonRepo.GetSomePeople();
+            peopleList.ItemsSource = somePeople;
         }
     }
 }

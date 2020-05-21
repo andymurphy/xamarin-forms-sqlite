@@ -72,11 +72,16 @@ namespace People
             }
             return new List<Person>();
         }
-        /*
+        
         public List<Person> GetSomePeople()
         {
-            // Return a list of people with names beginnning with a
+            // Return person named 'Andrew'
+
+            var user = from u in conn.Table<Person>()
+                       where u.Name == "Andrew"
+                       select u;
+            return user.ToList(); // lots of options avaiable after user here ***********
             
-        }*/
+        }
     }
 }
