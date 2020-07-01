@@ -6,6 +6,7 @@ using SQLite;
 
 namespace People
 {
+    // This class defines the schema for the Person Table in the database.
     public class PersonRepository
     {
         // Properties for the class with getters and setters
