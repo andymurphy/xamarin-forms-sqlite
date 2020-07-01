@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using People.Models;
 using SQLite;
 
@@ -13,20 +14,20 @@ namespace People
         public string StatusMessage { get; set; }
         
         // The connection to the SQLite database
-        private SQLiteConnection conn;
+        // Now this is asynchronus
+        private SQLiteAsyncConnection conn;
 
         // Constructor for the class
         public PersonRepository(string dbPath)
         {
             // Initialize a new SQLiteConnection
-            conn = new SQLiteConnection(dbPath);
+            conn = new SQLiteAsyncConnection(dbPath);
             // Create the Person table
-            conn.CreateTable<Person>();
+            conn.CreateTableAsync<Person>();
         }
 
-
         // Class methods below.
-
+        /*
         /// <summary>
         /// Adds a new person to the SQLite database
         /// </summary>
@@ -55,6 +56,27 @@ namespace People
             }
 
         }
+        */
+        // Async version of the above commented out method
+        public async Task AddNewPersonAsync(string name)
+        {
+            int result = 0;
+            try
+            {
+                // basic validation
+                if (string.IsNullOrEmpty(name))
+                {
+                    throw new Exception("Valid name required.");
+                }
+                result = await conn.InsertAsync(new Person { Name = name });
+                StatusMessage = string.Format("{0} record added [Name: {1})", result, name);
+            }
+            catch(Exception ex)
+            {
+                StatusMessage = string.Format("Failed to add {0}. Error: {1}", name, ex.Message);
+            }
+        }
+        /*
         /// <summary>
         /// Gets all the people from the database
         /// </summary>
@@ -72,9 +94,23 @@ namespace People
                 StatusMessage = string.Format("Failed to retrive data. {0}", ex.Message);
             }
             return new List<Person>();
+        */
+        // Async version of the above commented out method
+        public  Task<List<Person>> GetAllPeopleAsync()
+        {
+            try
+            {
+                return conn.Table<Person>().ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                StatusMessage = string.Format("Failed to retrieve data. {0}", ex.Message);
+            }
+
+            return null;
         }
         
-        public List<Person> GetSomePeople()
+        /*public List<Person> GetSomePeople()
         {
             // Return person named 'Andrew'
 
@@ -84,5 +120,6 @@ namespace People
             return user.ToList(); // lots of options avaiable after user here ***********
             
         }
+        */
     }
 }
